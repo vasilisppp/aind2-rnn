@@ -10,8 +10,8 @@ import keras
 # and window-size into a set of input/output pairs for use with our RNN model
 def window_transform_series(series, window_size):
     # containers for input/output pairs
-    X = []
-    y = []
+    X = [series[i:i+window_size] for i in range(len(series)-window_size)]
+    y = [series[i+window_size] for i in range(len(series)-window_size)]
 
     # reshape each 
     X = np.asarray(X)
@@ -23,7 +23,10 @@ def window_transform_series(series, window_size):
 
 # TODO: build an RNN to perform regression on our time series input/output data
 def build_part1_RNN(window_size):
-    pass
+    model = Sequential()
+    model.add(LSTM(5,return_sequences=False,input_shape=(window_size,1)))
+    model.add(Dense(1,activation=None))
+    return model
 
 
 ### TODO: return the text input with only ascii lowercase and the punctuation given below included.
